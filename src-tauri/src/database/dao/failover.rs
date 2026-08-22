@@ -37,7 +37,10 @@ impl Database {
                 Ok(FailoverQueueItem {
                     provider_id: row.get(0)?,
                     provider_name: row.get(1)?,
-                    sort_index: row.get(2)?,
+                    sort_index: {
+                        let v: Option<i64> = row.get(2)?;
+                        v.map(|v| v as usize)
+                    },
                     provider_notes: row.get(3)?,
                 })
             })
